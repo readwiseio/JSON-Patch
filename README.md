@@ -47,8 +47,8 @@ In [browsers that support ECMAScript modules](https://caniuse.com/#feat=es6-modu
 
 ```html
 <script type="module">
-  import * as jsonpatch from 'fast-json-patch/index.mjs';
-  import { applyOperation } from 'fast-json-patch/index.mjs';
+  import * as jsonpatch from 'readwise-fast-json-patch/index.mjs';
+  import { applyOperation } from 'readwise-fast-json-patch/index.mjs';
 </script>
 ```
 
@@ -57,22 +57,22 @@ In [browsers that support ECMAScript modules](https://caniuse.com/#feat=es6-modu
 In Node 12+ with `--experimental-modules` flag, the below code uses this library as an ECMAScript module:
 
 ```js
-import * as jsonpatch from 'fast-json-patch/index.mjs';
-import { applyOperation } from 'fast-json-patch/index.mjs';
+import * as jsonpatch from 'readwise-fast-json-patch/index.mjs';
+import { applyOperation } from 'readwise-fast-json-patch/index.mjs';
 ```
 
 In Webpack (and most surely other bundlers based on Babel), the below code uses this library as an ECMAScript module:
 
 ```js
-import * as jsonpatch from 'fast-json-patch';
-import { applyOperation } from 'fast-json-patch';
+import * as jsonpatch from 'readwise-fast-json-patch';
+import { applyOperation } from 'readwise-fast-json-patch';
 ```
 
 In standard Node, the below code uses this library as a CommonJS module:
 
 ```js
-const { applyOperation } = require('fast-json-patch');
-const applyOperation = require('fast-json-patch').applyOperation;
+const { applyOperation } = require('readwise-fast-json-patch');
+const applyOperation = require('readwise-fast-json-patch').applyOperation;
 ```
 
 ## Directories

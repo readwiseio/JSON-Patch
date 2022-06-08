@@ -28,7 +28,7 @@ module.exports = env => {
           minimize: false
         },
         output: {
-          filename: 'fast-json-patch.js',
+          filename: 'readwise-fast-json-patch.js',
           library: 'jsonpatch',
           libraryTarget: 'var'
         },
@@ -36,14 +36,14 @@ module.exports = env => {
           extensions: ['.js']
         },
         plugins: [
-          new webpack.BannerPlugin('fast-json-patch, version: ' + package['version'])
+          new webpack.BannerPlugin('readwise-fast-json-patch, version: ' + package['version'])
         ]
       },
       {
         entry: './index.js',
         mode: 'production',
         output: {
-          filename: 'fast-json-patch.min.js',
+          filename: 'readwise-fast-json-patch.min.js',
           library: 'jsonpatch',
           libraryTarget: 'var'
         },
@@ -51,7 +51,7 @@ module.exports = env => {
           extensions: ['.js']
         },
         plugins: [
-          new webpack.BannerPlugin('fast-json-patch, version: ' + package['version'])
+          new webpack.BannerPlugin('readwise-fast-json-patch, version: ' + package['version'])
         ]
       }
     ];
