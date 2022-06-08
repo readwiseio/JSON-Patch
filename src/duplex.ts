@@ -206,6 +206,7 @@ function _generate(mirror, obj, patches, path, invertible) {
  * Create an array of patches from the differences in two objects
  */
 export function compare(tree1: Object | Array<any>, tree2: Object | Array<any>, invertible = false): Operation[] {
+  console.log('compare yooooo');
   var patches = [];
   _generate(tree1, tree2, patches, '', invertible);
   return patches;

@@ -170,6 +170,7 @@ function _generate(mirror, obj, patches, path, invertible) {
  */
 export function compare(tree1, tree2, invertible) {
     if (invertible === void 0) { invertible = false; }
+    console.log('compare yooooo');
     var patches = [];
     _generate(tree1, tree2, patches, '', invertible);
     return patches;
