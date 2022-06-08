@@ -891,14 +891,14 @@ function _generate(mirror, obj, patches, path, invertible) {
             if (invertible) {
                 patches.push({ op: "test", path: path + "/" + helpers_js_1.escapePathComponent(key), value: helpers_js_1._deepClone(oldVal) });
             }
-            patches.push({ op: "remove", path: path + "/" + helpers_js_1.escapePathComponent(key) });
+            patches.push({ op: "remove", path: path + "/" + helpers_js_1.escapePathComponent(key), testValue: helpers_js_1._deepClone(oldVal) });
             deleted = true; // property has been deleted
         }
         else {
             if (invertible) {
                 patches.push({ op: "test", path: path, value: mirror });
             }
-            patches.push({ op: "replace", path: path, value: obj });
+            patches.push({ op: "replace", path: path, value: obj, testValue: helpers_js_1._deepClone(oldVal) });
             changed = true;
         }
     }
@@ -917,7 +917,6 @@ function _generate(mirror, obj, patches, path, invertible) {
  */
 function compare(tree1, tree2, invertible) {
     if (invertible === void 0) { invertible = false; }
-    console.log('compare yooooo');
     var patches = [];
     _generate(tree1, tree2, patches, '', invertible);
     return patches;
