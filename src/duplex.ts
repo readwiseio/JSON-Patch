@@ -180,13 +180,13 @@ function _generate(mirror, obj, patches, path, invertible) {
       if (invertible) {
         patches.push({ op: "test", path: path + "/" + escapePathComponent(key), value: _deepClone(oldVal) });
       }
-      patches.push({ op: "remove", path: path + "/" + escapePathComponent(key) });
+      patches.push({ op: "remove", path: path + "/" + escapePathComponent(key), testValue: _deepClone(oldVal) });
       deleted = true; // property has been deleted
     } else {
       if (invertible) {
         patches.push({ op: "test", path, value: mirror });
       }
-      patches.push({ op: "replace", path, value: obj });
+      patches.push({ op: "replace", path, value: obj, testValue: _deepClone(oldVal) });
       changed = true;
     }
   }
@@ -206,7 +206,6 @@ function _generate(mirror, obj, patches, path, invertible) {
  * Create an array of patches from the differences in two objects
  */
 export function compare(tree1: Object | Array<any>, tree2: Object | Array<any>, invertible = false): Operation[] {
-  console.log('compare yooooo');
   var patches = [];
   _generate(tree1, tree2, patches, '', invertible);
   return patches;

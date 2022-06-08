@@ -33,11 +33,13 @@ export interface AddOperation<T> extends BaseOperation {
 
 export interface RemoveOperation extends BaseOperation {
   op: 'remove';
+  testValue?: any;
 }
 
 export interface ReplaceOperation<T> extends BaseOperation {
   op: 'replace';
   value: T;
+  testValue: T;
 }
 
 export interface MoveOperation extends BaseOperation {
