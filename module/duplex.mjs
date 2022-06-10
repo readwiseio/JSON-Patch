@@ -109,6 +109,11 @@ export function generate(observer, invertible) {
     }
     return temp;
 }
+function addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal) {
+    if (Array.isArray(mirror) && Array.isArray(obj)) {
+        patches[patches.length - 1].testValue = _deepClone(oldVal);
+    }
+}
 // Dirty check if obj is different from mirror, generate patches and update mirror
 function _generate(mirror, obj, patches, path, invertible) {
     if (obj === mirror) {
@@ -137,6 +142,7 @@ function _generate(mirror, obj, patches, path, invertible) {
                         patches.push({ op: "test", path: path + "/" + escapePathComponent(key), value: _deepClone(oldVal) });
                     }
                     patches.push({ op: "replace", path: path + "/" + escapePathComponent(key), value: _deepClone(newVal) });
+                    addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal);
                 }
             }
         }
@@ -144,15 +150,17 @@ function _generate(mirror, obj, patches, path, invertible) {
             if (invertible) {
                 patches.push({ op: "test", path: path + "/" + escapePathComponent(key), value: _deepClone(oldVal) });
             }
-            patches.push({ op: "remove", path: path + "/" + escapePathComponent(key), testValue: _deepClone(oldVal) });
+            patches.push({ op: "remove", path: path + "/" + escapePathComponent(key) });
             deleted = true; // property has been deleted
+            addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal);
         }
         else {
             if (invertible) {
                 patches.push({ op: "test", path: path, value: mirror });
             }
-            patches.push({ op: "replace", path: path, value: obj, testValue: _deepClone(oldVal) });
+            patches.push({ op: "replace", path: path, value: obj });
             changed = true;
+            addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal);
         }
     }
     if (!deleted && newKeys.length == oldKeys.length) {

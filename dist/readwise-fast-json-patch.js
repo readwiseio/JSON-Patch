@@ -865,6 +865,11 @@ function generate(observer, invertible) {
     return temp;
 }
 exports.generate = generate;
+function addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal) {
+    if (Array.isArray(mirror) && Array.isArray(obj)) {
+        patches[patches.length - 1].testValue = helpers_js_1._deepClone(oldVal);
+    }
+}
 // Dirty check if obj is different from mirror, generate patches and update mirror
 function _generate(mirror, obj, patches, path, invertible) {
     if (obj === mirror) {
@@ -893,6 +898,7 @@ function _generate(mirror, obj, patches, path, invertible) {
                         patches.push({ op: "test", path: path + "/" + helpers_js_1.escapePathComponent(key), value: helpers_js_1._deepClone(oldVal) });
                     }
                     patches.push({ op: "replace", path: path + "/" + helpers_js_1.escapePathComponent(key), value: helpers_js_1._deepClone(newVal) });
+                    addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal);
                 }
             }
         }
@@ -900,15 +906,17 @@ function _generate(mirror, obj, patches, path, invertible) {
             if (invertible) {
                 patches.push({ op: "test", path: path + "/" + helpers_js_1.escapePathComponent(key), value: helpers_js_1._deepClone(oldVal) });
             }
-            patches.push({ op: "remove", path: path + "/" + helpers_js_1.escapePathComponent(key), testValue: helpers_js_1._deepClone(oldVal) });
+            patches.push({ op: "remove", path: path + "/" + helpers_js_1.escapePathComponent(key) });
             deleted = true; // property has been deleted
+            addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal);
         }
         else {
             if (invertible) {
                 patches.push({ op: "test", path: path, value: mirror });
             }
-            patches.push({ op: "replace", path: path, value: obj, testValue: helpers_js_1._deepClone(oldVal) });
+            patches.push({ op: "replace", path: path, value: obj });
             changed = true;
+            addTestValueToLastPatchIfObjectIsArray(mirror, obj, patches, oldVal);
         }
     }
     if (!deleted && newKeys.length == oldKeys.length) {
