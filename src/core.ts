@@ -296,8 +296,10 @@ export function applyOperation<T>(document: T, operation: Operation, validateOpe
             }
           }
 
-          if (validateOperation && operation.op === "add" && key > obj.length) {
-            throw new JsonPatchError("The specified index MUST NOT be greater than the number of elements in the array", "OPERATION_VALUE_OUT_OF_BOUNDS", index, operation, document);
+          if (validateOperation && (operation.op === "add" || operation.op === "replace") && key > obj.length) {
+            // We want to treat arrays like sets, so if the add operation is out of bounds, just append to the end of the array:
+            key = obj.length;
+            // throw new JsonPatchError("The specified index MUST NOT be greater than the number of elements in the array", "OPERATION_VALUE_OUT_OF_BOUNDS", index, operation, document);
           }
 
           const returnValue = arrOps[operation.op].call(operation, obj, key, document); // Apply patch
