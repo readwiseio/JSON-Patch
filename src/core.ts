@@ -287,9 +287,19 @@ export function applyOperation<T>(document: T, operation: Operation, validateOpe
           }
         }
         if (t >= len) {
+
+          if (operation.testValue !== undefined && (operation.op === 'remove' || operation.op === 'replace')) {
+            // If we have a testValue set in the operation, use it for a correct index in remove/replace
+            var newIndex = obj.indexOf(operation.testValue);
+            if (newIndex !== -1) {
+              key = newIndex;
+            }
+          }
+
           if (validateOperation && operation.op === "add" && key > obj.length) {
             throw new JsonPatchError("The specified index MUST NOT be greater than the number of elements in the array", "OPERATION_VALUE_OUT_OF_BOUNDS", index, operation, document);
           }
+
           const returnValue = arrOps[operation.op].call(operation, obj, key, document); // Apply patch
           if (returnValue.test === false) {
             throw new JsonPatchError("Test operation failed", 'TEST_OPERATION_FAILED', index, operation, document);
