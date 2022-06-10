@@ -288,7 +288,7 @@ export function applyOperation<T>(document: T, operation: Operation, validateOpe
         }
         if (t >= len) {
 
-          if (operation.testValue !== undefined && (operation.op === 'remove' || operation.op === 'replace')) {
+          if ((operation.op === 'remove' || operation.op === 'replace') && operation.testValue !== undefined) {
             // If we have a testValue set in the operation, use it for a correct index in remove/replace
             var newIndex = obj.indexOf(operation.testValue);
             if (newIndex !== -1) {
