@@ -15,11 +15,17 @@ var objOps = {
         return { newDocument: document };
     },
     remove: function (obj, key, document) {
+        if (!obj) {
+            return { newDocument: document, removed: undefined };
+        }
         var removed = obj[key];
         delete obj[key];
         return { newDocument: document, removed: removed };
     },
     replace: function (obj, key, document) {
+        if (!obj) {
+            return { newDocument: document, removed: undefined };
+        }
         var removed = obj[key];
         obj[key] = this.value;
         return { newDocument: document, removed: removed };
