@@ -11,7 +11,9 @@ exports.deepClone = helpers_js_1._deepClone;
 /* The operations applicable to an object */
 var objOps = {
     add: function (obj, key, document) {
-        obj[key] = this.value;
+        if (obj) {
+            obj[key] = this.value;
+        }
         return { newDocument: document };
     },
     remove: function (obj, key, document) {

@@ -75,7 +75,9 @@ export interface PatchResult<T> extends Array<OperationResult<T>> {
 /* The operations applicable to an object */
 const objOps = {
   add: function (obj, key, document) {
-    obj[key] = this.value;
+    if (obj) {
+      obj[key] = this.value;
+    }
     return { newDocument: document };
   },
   remove: function (obj, key, document) {
